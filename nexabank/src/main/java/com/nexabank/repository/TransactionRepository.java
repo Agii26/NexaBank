@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
@@ -28,4 +29,16 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             @Param("from")      LocalDateTime from,
             @Param("to")        LocalDateTime to,
             Pageable pageable);
+
+    // Used by StatementService — returns all transactions in range without pagination
+    @Query("""
+        SELECT t FROM Transaction t
+        WHERE t.account.id = :accountId
+          AND t.createdAt BETWEEN :from AND :to
+        ORDER BY t.createdAt DESC
+    """)
+    List<Transaction> findForStatement(
+            @Param("accountId") Long accountId,
+            @Param("from")      LocalDateTime from,
+            @Param("to")        LocalDateTime to);
 }
