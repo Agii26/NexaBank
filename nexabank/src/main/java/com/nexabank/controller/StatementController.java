@@ -35,7 +35,7 @@ public class StatementController {
         String filename = String.format("statement-%d-%s-to-%s.pdf", accountId, from, to);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="" + filename + """)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdf);
     }

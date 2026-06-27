@@ -28,6 +28,7 @@ public class AdminService {
 
     // ── Users ──────────────────────────────────────────────────────────────────
 
+    @Transactional(readOnly = true)
     public PageResponse<UserAdminResponse> getAllUsers(Pageable pageable) {
         return PageResponse.from(
                 userRepository.findAll(pageable),
@@ -36,8 +37,8 @@ public class AdminService {
 
     // ── Accounts ───────────────────────────────────────────────────────────────
 
-    public PageResponse<AccountAdminResponse> getAllAccounts(Pageable pageable) {
-        return PageResponse.from(
+    @Transactional(readOnly = true)
+    public PageResponse<AccountAdminResponse> getAllAccounts(Pageable pageable) {        return PageResponse.from(
                 accountRepository.findAll(pageable),
                 this::toAccountResponse);
     }
